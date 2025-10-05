@@ -43,9 +43,18 @@ function Landing() {
         <h1 className="display-4 fw-bold mb-3" style={{textShadow: "2px 2px 8px rgba(0,0,0,0.4)"}}>
           Welcome to <span className="text-warning">Lost & Found Community</span>
         </h1>
-        <p className="lead mb-5 text-warning" style={{textShadow: "1px 1px 6px rgba(0,0,0,0.5)"}}>
-          Find lost items, report found items, and connect with your community quickly and safely.
-        </p>
+       <p
+  className="lead mb-5 text-warning text-center"
+  style={{
+    textShadow: "1px 1px 6px rgba(0,0,0,0.5)",
+    fontSize: "1rem",           // smaller base font for mobile
+    lineHeight: "1.5rem",       // better spacing
+    maxWidth: "90%",            // prevent overflow
+    margin: "0 auto",           // center the paragraph
+  }}
+>
+  Find lost items, report found items, and connect with your community quickly and safely.
+</p>
       </div>
 
       <div className="d-flex flex-column flex-sm-row gap-3">

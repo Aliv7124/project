@@ -40,7 +40,7 @@ export default Dashboard;
 
 
 import React, { useEffect, useState } from "react";
-import APIAdmin from "./APIAdmin";
+import APIAdmin from "../APIAdmin.js";
 
 function Dashboard() {
   const [items, setItems] = useState([]);

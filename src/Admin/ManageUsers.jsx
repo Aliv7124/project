@@ -71,7 +71,7 @@ export default ManageUsers;
 */
 
 import React, { useEffect, useState } from "react";
-import APIAdmin from "../APIAdmin";
+import APIAdmin from "../apiAdmin";
 
 function ManageUsers() {
   const [users, setUsers] = useState([]);

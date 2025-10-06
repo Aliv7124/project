@@ -1,42 +1,30 @@
-/*
-import React from "react";
-import ItemCard from "./ItemCard"
-
-function Home() {
-  const dummyItems = [
-    { id: 1, type: "Lost", name: "Wallet", location: "Canteen", date: "Oct 4, 2025" },
-    { id: 2, type: "Found", name: "Phone", location: "Library", date: "Oct 3, 2025" },
-  ];
-
-  return (
-    <div>
-      <h2 className="text-center mb-4 fw-bold">Recent Lost & Found Items</h2>
-      <div className="row">
-        {dummyItems.map((item) => (
-          <div key={item.id} className="col-md-4 mb-3">
-            <ItemCard item={item} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default Home;
-*/
 
 
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ItemCard from "./ItemCard";
+import { getAllItems } from "../api"; // ✅ fetch all items, not just user's
 
 function Home() {
-  const dummyItems = [
-    { id: 1, type: "Lost", name: "Wallet", location: "Canteen", date: "Oct 4, 2025" },
-    { id: 2, type: "Found", name: "Phone", location: "Library", date: "Oct 3, 2025" },
-    { id: 3, type: "Lost", name: "Keys", location: "Auditorium", date: "Oct 2, 2025" },
-    { id: 4, type: "Found", name: "Bag", location: "Bus Stop", date: "Oct 1, 2025" },
-  ];
+  const [items, setItems] = useState([]);
+
+  const fetchItems = async () => {
+    try {
+      const { data } = await getAllItems(); // fetch all posts
+      setItems(data); // save in state
+    } catch (err) {
+      console.error("Error fetching items:", err.response?.data || err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  // Remove deleted item from state
+  const handleDelete = (deletedId) => {
+    setItems(items.filter((item) => item._id !== deletedId));
+  };
 
   return (
     <div className="container py-5" style={{ minHeight: "90vh" }}>
@@ -53,11 +41,15 @@ function Home() {
       </h2>
 
       <div className="row">
-        {dummyItems.map((item) => (
-          <div key={item.id} className="col-md-4 mb-4">
-            <ItemCard item={item} />
-          </div>
-        ))}
+        {items.length === 0 ? (
+          <p className="text-center">No items found.</p>
+        ) : (
+          items.map((item) => (
+            <div key={item._id} className="col-md-4 mb-4">
+              <ItemCard item={item} onDelete={handleDelete} />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -47,10 +47,10 @@ function Landing() {
   className="lead mb-5 text-warning text-center"
   style={{
     textShadow: "1px 1px 6px rgba(0,0,0,0.5)",
-    fontSize: "1rem",           // smaller base font for mobile
-    lineHeight: "1.5rem",       // better spacing
-    maxWidth: "90%",            // prevent overflow
-    margin: "0 auto",           // center the paragraph
+    fontSize: "1rem",          
+    lineHeight: "1.5rem",      
+    maxWidth: "90%",          
+    margin: "0 auto",           
   }}
 >
   Find lost items, report found items, and connect with your community quickly and safely.

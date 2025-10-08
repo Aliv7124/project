@@ -33,7 +33,7 @@ export const getUserItems = () => API.get("/items"); // Logged-in user's items
 export const createUserItem = (data) => API.post("/items", data);
 export const deleteUserItem = (id) => API.delete(`/items/${id}`);
 export const getAllItems = () => API.get("/items/all"); // Public route
-
+export const updateUserItem = (id, data) => API.put(`/items/${id}`, data);
 // =====================
 // Comment routes
 // =====================

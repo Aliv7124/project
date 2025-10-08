@@ -1,201 +1,3 @@
-/*
-
-import React, { useEffect, useState } from "react";
-import API, { deleteUserItem, updateUserItem } from "../api";
-import ShareButtons from "./ShareButtons";
-
-function MyPosts() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // Edit modal states
-  const [editPost, setEditPost] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    type: "",
-    location: "",
-    description: "",
-    image: ""
-  });
-
-  // Fetch user's posts
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      const { data } = await API.get("/items"); // logged-in user's posts
-      setPosts(data);
-    } catch (err) {
-      console.error("Error fetching posts:", err.response?.data || err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  // Delete post
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
-    try {
-      await deleteUserItem(id);
-      setPosts(posts.filter((p) => p._id !== id));
-      alert("Post deleted successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete post");
-    }
-  };
-
-  // Open edit modal
-  const handleEdit = (post) => {
-    setEditPost(post);
-    setFormData({
-      name: post.name,
-      type: post.type,
-      location: post.location,
-      description: post.description || "",
-      image: post.image || ""
-    });
-    setShowModal(true);
-  };
-
-  // Submit edit
-  const submitEdit = async () => {
-    try {
-      const { data } = await updateUserItem(editPost._id, formData);
-      setPosts(posts.map((p) => (p._id === editPost._id ? data : p)));
-      setShowModal(false);
-      alert("Post updated successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to update post");
-    }
-  };
-
-  if (loading) return <p className="text-center mt-5">Loading posts...</p>;
-
-  return (
-    <div className="container mt-5">
-      <h3 className="text-center mb-4">My Posts</h3>
-      <div className="row g-3">
-        {posts.map((post) => (
-          <div className="col-12 col-sm-6 col-md-3" key={post._id}>
-            <div className="card h-100 d-flex flex-column p-3 shadow">
-              {post.image && (
-                <img
-                  src={post.image}
-                  alt={post.name}
-                  className="card-img-top"
-                  style={{ maxHeight: "150px", objectFit: "cover" }}
-                />
-              )}
-
-              <h6 className="mt-2" style={{ fontSize: "0.9rem" }}>{post.name}</h6>
-              <p style={{ fontSize: "0.75rem", margin: 0 }}>
-                <strong>Type:</strong> {post.type}
-              </p>
-              <p style={{ fontSize: "0.75rem", margin: 0 }}>
-                <strong>Location:</strong> {post.location}
-              </p>
-              <p style={{ fontSize: "0.7rem", margin: "0.25rem 0" }}>
-                <strong>Date:</strong> {new Date(post.date).toLocaleString()}
-              </p>
-
-              <div className="d-flex gap-2 justify-content-center mt-auto">
-                <button
-                  className="btn btn-primary btn-sm flex-grow-1"
-                  style={{ fontSize: "0.75rem" }}
-                  onClick={() => window.location.href = `/item/${post._id}`}
-                >
-                  View Details
-                </button>
-
-                <button
-                  className="btn btn-warning btn-sm flex-grow-1"
-                  style={{ fontSize: "0.75rem" }}
-                  onClick={() => handleEdit(post)}
-                >
-                  Edit
-                </button>
-
-                <button
-                  className="btn btn-danger btn-sm flex-grow-1"
-                  style={{ fontSize: "0.75rem" }}
-                  onClick={() => handleDelete(post._id)}
-                >
-                  Delete
-                </button>
-              </div>
-
-              <div className="mt-2 d-flex justify-content-center">
-                <ShareButtons item={post} />
-              </div>
-            </div>
-          </div>
-        ))}
-        {posts.length === 0 && <p className="text-center">No posts found.</p>}
-      </div>
-
-     
-      {showModal && (
-        <div className="modal show d-block" tabIndex="-1">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Edit Post</h5>
-                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
-              </div>
-              <div className="modal-body">
-                <input
-                  className="form-control mb-2"
-                  placeholder="Name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                />
-                <input
-                  className="form-control mb-2"
-                  placeholder="Type"
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                />
-                <input
-                  className="form-control mb-2"
-                  placeholder="Location"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                />
-                <textarea
-                  className="form-control mb-2"
-                  placeholder="Description"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                />
-                <input
-                  className="form-control mb-2"
-                  placeholder="Image URL"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                />
-              </div>
-              <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="btn btn-primary" onClick={submitEdit}>Save Changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default MyPosts;
-*/
-
-
 
 import React, { useEffect, useState } from "react";
 import API, { deleteUserItem, updateUserItem } from "../api";
@@ -216,6 +18,9 @@ function MyPosts() {
     image: "",
     imageFile: null
   });
+
+  // Image modal state
+  const [imgModal, setImgModal] = useState({ open: false, url: "" });
 
   // Fetch user's posts
   const fetchPosts = async () => {
@@ -304,7 +109,8 @@ function MyPosts() {
                   src={post.image}
                   alt={post.name}
                   className="card-img-top"
-                  style={{ maxHeight: "150px", objectFit: "cover" }}
+                  style={{ maxHeight: "150px", objectFit: "cover", cursor: "pointer" }}
+                  onClick={() => setImgModal({ open: true, url: post.image })}
                 />
               )}
 
@@ -402,6 +208,21 @@ function MyPosts() {
                 <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
                 <button className="btn btn-primary" onClick={submitEdit}>Save Changes</button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Modal */}
+      {imgModal.open && (
+        <div
+          className="modal show d-block"
+          tabIndex="-1"
+          onClick={() => setImgModal({ open: false, url: "" })}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content bg-transparent border-0">
+              <img src={imgModal.url} alt="Full" className="img-fluid rounded" />
             </div>
           </div>
         </div>

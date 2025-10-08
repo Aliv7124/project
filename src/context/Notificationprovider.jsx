@@ -11,8 +11,8 @@ export const NotificationProvider = ({ children }) => {
 
   useEffect(() => {
     // Initialize socket
-    socketRef.current = io("http://localhost:5000"); 
-   //  socketRef.current = io("https://backend-project-9857.onrender.com"); 
+    
+     socketRef.current = io("https://backend-project-9857.onrender.com"); 
     const socket = socketRef.current;
 
     // Preload notification audio

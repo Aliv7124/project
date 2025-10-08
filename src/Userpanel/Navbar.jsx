@@ -73,9 +73,24 @@ export default Navbar;
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setAuthToken } from "../api";
-
+import { useState,useEffect } from "react";
 function Navbar({ setIsLoggedIn }) {
   const navigate = useNavigate();
+   const [mode, setMode] = useState(() => localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    if (mode === "dark") {
+      document.body.style.backgroundColor = "#121212";
+      document.body.style.color = "white";
+    } else {
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "black";
+    }
+    localStorage.setItem("theme", mode);
+  }, [mode]);
+
+  const toggleTheme = () => {
+    setMode(mode === "light" ? "dark" : "light");
+  };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -119,6 +134,23 @@ function Navbar({ setIsLoggedIn }) {
             </li>
           </ul>
           
+        <div className="form-check form-switch me-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+              onChange={toggleTheme}
+              checked={mode === "dark"}
+            />
+            <label
+              className="form-check-label text-white"
+              htmlFor="flexSwitchCheckDefault"
+            >
+              {mode === "dark" ? "Light" : "Dark"}
+            </label>
+          </div>
+
           <button
             className="btn btn-outline-light fw-bold shadow-sm"
             style={{

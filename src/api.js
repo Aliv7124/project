@@ -23,11 +23,7 @@ if (token) setAuthToken(token);
 // =====================
 export const signupUser = (data) => API.post("/auth/signup", data);
 export const loginUser = (data) => API.post("/auth/login", data);
-
-// Facebook login
 export const facebookLogin = (data) => API.post("/auth/facebook-login", data);
-
-// Get current logged-in user
 export const getCurrentUser = () => API.get("/auth/me");
 
 // =====================
@@ -36,9 +32,16 @@ export const getCurrentUser = () => API.get("/auth/me");
 export const getUserItems = () => API.get("/items"); // Logged-in user's items
 export const createUserItem = (data) => API.post("/items", data);
 export const deleteUserItem = (id) => API.delete(`/items/${id}`);
+export const getAllItems = () => API.get("/items/all"); // Public route
 
-// Public route for all items
-export const getAllItems = () => API.get("/items/all");
+// =====================
+// Comment routes
+// =====================
+export const getItemComments = (itemId) => API.get(`/comments/item/${itemId}`); // Fetch comments for an item
+export const addComment = (itemId, data) => API.post(`/comments/item/${itemId}`, data); // Add comment to item
+export const deleteComment = (commentId) => API.delete(`/comments/${commentId}`); // Delete comment
+
+
 
 // =====================
 // Export API instance

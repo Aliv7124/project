@@ -45,7 +45,7 @@ function MyPosts({item}) {
   <h3 className="text-center mb-4">My Posts</h3>
   <div className="row g-2"> {/* gutter controls spacing between cards */}
     {posts.map((post) => (
-      <div className="col-6 col-md-3" key={post._id}>
+      <div className="col-6 col-md-2" key={post._id}>
         <div className="card p-3 shadow h-100 d-flex flex-column">
           {post.image && (
             <img
@@ -63,24 +63,27 @@ function MyPosts({item}) {
             <strong>Date:</strong> {new Date(post.date).toLocaleString()}
           </p>
 
-          <div className=" d-flex gap-3 justify-content-start mt-2">
+          <div className=" d-flex gap-3 justify-content-center mt-2">
             <button
               className="btn btn-primary btn-sm"
               onClick={() => window.location.href = `/item/${post._id}`}
-              style={{ fontSize: "0.65rem", padding: "0.25rem 0.4rem" }}
+              style={{ fontSize: "0.7rem", padding: "0.25rem 0.4rem" }}
             >
               View Details
             </button>
-           <ShareButtons item={post} className="flex-grow-1" />
+           
 
             <button
               className="btn btn-danger btn-sm"
               onClick={() => handleDelete(post._id)}
-              style={{ fontSize: "0.65rem", padding: "0.25rem 0.4rem" }}
+              style={{ fontSize: "0.7rem" , padding: "0.25rem 0.4rem"}}
             >
               Delete
             </button>
           </div>
+           <div className="mt-2 d-flex justify-content-center">
+  <ShareButtons item={post} />
+</div>
         </div>
       </div>
     ))}

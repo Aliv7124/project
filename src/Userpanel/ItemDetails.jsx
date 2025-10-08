@@ -103,6 +103,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../api";
 import Comments from "../components/Comments";
+import ShareButtons from "./ShareButtons";
 
 function ItemDetails() {
   const { id } = useParams(); // get item ID from route
@@ -182,7 +183,10 @@ function ItemDetails() {
 
       {/* Comments Section */}
       {item._id && <Comments itemId={item._id} />}
+    
+
     </div>
+    
   );
 }
 

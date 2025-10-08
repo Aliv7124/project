@@ -70,6 +70,7 @@ export default ItemCard;
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MapModal from "../components/MapModal";
+import ShareButtons from "./ShareButtons";
 
 function ItemCard({ item }) {
   const [showMap, setShowMap] = useState(false);
@@ -101,7 +102,7 @@ function ItemCard({ item }) {
     
  <div
   className="card shadow-sm h-100"
-  style={{ maxWidth: "180px", margin: "0.1rem" }} // smaller margin
+  style={{ maxWidth: "180px", margin: "0.1rem", maxHeight:"290px" }} // smaller margin
 >
   {item.image && (
     <div style={{ height: "150px", overflow: "hidden" }}>
@@ -137,7 +138,11 @@ function ItemCard({ item }) {
       >
         View on Map
       </button>
+
     </div>
+     <div className="mt-2 d-flex justify-content-center">
+  <ShareButtons item={item} />
+</div>
   </div>
 </div>
      
@@ -151,6 +156,7 @@ function ItemCard({ item }) {
           location={item.location}
         />
       )}
+       
     </>
   );
 }

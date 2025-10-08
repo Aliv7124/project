@@ -128,47 +128,53 @@ function MyPosts() {
   if (loading) return <p className="text-center mt-5">Loading posts...</p>;
 
   return (
-    <div className="container mt-5">
-      <h3 className="text-center mb-4">My Posts</h3>
-      <div className="row">
-        {posts.map((post) => (
-          <div className="col-md-4 mb-3" key={post._id}>
-            <div className="card p-3 shadow">
-             
-              {post.image && (
-                <img
-                  src={post.image} // ✅ Cloudinary URL
-                  alt={post.name}
-                  className="card-img-top mb-2"
-                  style={{ maxHeight: "200px", objectFit: "cover" }}
-                />
-              )}
+    
+<div className="container mt-5">
+  <h3 className="text-center mb-4">My Posts</h3>
+  <div className="row g-2"> {/* gutter controls spacing between cards */}
+    {posts.map((post) => (
+      <div className="col-6 col-md-2" key={post._id}>
+        <div className="card p-3 shadow h-100 d-flex flex-column">
+          {post.image && (
+            <img
+              src={post.image}
+              alt={post.name}
+              className="card-img-top"
+              style={{ maxHeight: "150px", objectFit: "cover" }}
+            />
+          )}
 
-              <h5>{post.name}</h5>
-              <p><strong>Type:</strong> {post.type}</p>
-              <p><strong>Location:</strong> {post.location}</p>
-              <p><strong>Date:</strong> {new Date(post.date).toLocaleString()}</p>
+          <h6 style={{ fontSize: "0.8rem", marginTop: "0.5rem" }}>{post.name}</h6>
+          <p style={{ fontSize: "0.7rem", margin: "0" }}><strong>Type:</strong> {post.type}</p>
+          <p style={{ fontSize: "0.7rem", margin: "0" }}><strong>Location:</strong> {post.location}</p>
+          <p style={{ fontSize: "0.65rem", margin: "0.25rem 0" }}>
+            <strong>Date:</strong> {new Date(post.date).toLocaleString()}
+          </p>
 
-              <div className="d-flex justify-content-between mt-3">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => window.location.href = `/item/${post._id}`}
-                >
-                  View Details
-                </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(post._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+          <div className="mt-auto d-flex justify-content-between">
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => window.location.href = `/item/${post._id}`}
+              style={{ fontSize: "0.65rem", padding: "0.25rem 0.4rem" }}
+            >
+              View Details
+            </button>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => handleDelete(post._id)}
+              style={{ fontSize: "0.65rem", padding: "0.25rem 0.4rem" }}
+            >
+              Delete
+            </button>
           </div>
-        ))}
-        {posts.length === 0 && <p className="text-center">No posts found.</p>}
+        </div>
       </div>
-    </div>
+    ))}
+    {posts.length === 0 && <p className="text-center">No posts found.</p>}
+  </div>
+</div>
+
+
   );
 }
 

@@ -23,6 +23,7 @@ import Dashboard from './Admin/Dashboard';
 import ManageItems from './Admin/ManageItems';
 import ManageUsers from './Admin/ManageUsers';
 import AdminLayout from './Admin/AdminLayout';
+import "leaflet/dist/leaflet.css";
 
 
 

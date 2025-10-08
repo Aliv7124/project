@@ -45,7 +45,7 @@ function Home() {
           <p className="text-center">No items found.</p>
         ) : (
           items.map((item) => (
-            <div key={item._id} className="col-md-4 mb-4">
+            <div key={item._id} className="col-md-2 mb-4">
               <ItemCard item={item} onDelete={handleDelete} />
             </div>
           ))

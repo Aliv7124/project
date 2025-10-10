@@ -10,32 +10,36 @@ function PostLost() {
   const [phone, setPhone] = useState(""); // <-- added phone
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("location", location);
+    formData.append("description", description);
+    formData.append("type", "Lost");
+    formData.append("date", new Date().toISOString());
+    formData.append("phone", phone);
 
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("location", location);
-      formData.append("description", description);
-      formData.append("type", "Lost");
-      formData.append("date", new Date().toISOString());
-      formData.append("phone", phone); // <-- send phone to backend
+    if (image) formData.append("image", image);
 
-      if (image) formData.append("image", image);
+    // Add Authorization header with JWT token
+    const token = localStorage.getItem("token"); // or wherever you store it
+    await API.post("/items", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
 
-      await API.post("/items", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      alert("Lost item posted successfully!");
-      navigate("/myposts");
-    } catch (err) {
-      alert(err.response?.data?.message || "Failed to post item");
-      console.error(err);
-    }
-  };
+    alert("Lost item posted successfully!");
+    navigate("/myposts");
+  } catch (err) {
+    console.error(err.response || err);
+    alert(err.response?.data?.message || "Failed to post item");
+  }
+};
 
   return (
     <div className="col-md-6 mx-auto card p-4 shadow mt-5">

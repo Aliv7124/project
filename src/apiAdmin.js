@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const APIAdmin = axios.create({
-  baseURL: "https://backend-project-9857.onrender.com/api/admin",
+  baseURL: "https://backend-project-w5p1.onrender.com/api/admin",
  // Admin backend base URL
 });
 

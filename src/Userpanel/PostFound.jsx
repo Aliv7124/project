@@ -120,6 +120,7 @@ function PostFound() {
   const [phone, setPhone] = useState("");
   const [image, setImage] = useState(null);
   const [loadingDesc, setLoadingDesc] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
 
   // ✅ AI Description Generator
@@ -128,7 +129,15 @@ function PostFound() {
     try {
       setLoadingDesc(true);
       const { data } = await generateDescription(name);
-      setDescription(data.description);  // populate textarea with AI output
+      
+      if (data.descriptions?.length > 0) {
+        setSuggestions(data.descriptions);        // store all suggestions
+        setDescription(data.descriptions[0]);     // show first suggestion by default
+      } else {
+        setSuggestions([]);
+        setDescription("");
+        alert("No suggestions generated");
+      }
     } catch (err) {
       console.error("Failed to generate description", err.response?.data || err.message);
       alert("Failed to generate description");
@@ -179,7 +188,7 @@ function PostFound() {
 
         <div className="mb-3">
           <label>Description</label>
-          <div className="d-flex gap-2">
+          <div className="d-flex gap-2 mb-2">
             <textarea
               className="form-control"
               placeholder="Enter description"
@@ -196,6 +205,22 @@ function PostFound() {
               {loadingDesc ? "Generating..." : "AI Suggest"}
             </button>
           </div>
+
+          {/* AI Suggestions Buttons */}
+          {suggestions.length > 0 && (
+            <div className="d-flex flex-wrap gap-2">
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="btn btn-sm btn-outline-primary"
+                  onClick={() => setDescription(s)}
+                >
+                  Suggestion {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mb-3">

@@ -1,4 +1,4 @@
-/*
+
 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -47,110 +47,6 @@ function Navbar({ setIsLoggedIn }) {
             </li>
           </ul>
           
-          <button
-            className="btn btn-outline-light fw-bold shadow-sm"
-            style={{
-              transition: "0.3s",
-              borderRadius: "8px",
-            }}
-            onMouseEnter={e => e.target.style.transform = "scale(1.05)"}
-            onMouseLeave={e => e.target.style.transform = "scale(1)"}
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
-export default Navbar;
-*/
-
-
-
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { setAuthToken } from "../api";
-import { useState,useEffect } from "react";
-function Navbar({ setIsLoggedIn }) {
-  const navigate = useNavigate();
-   const [mode, setMode] = useState(() => localStorage.getItem("theme") || "light");
-  useEffect(() => {
-    if (mode === "dark") {
-      document.body.style.backgroundColor = "#121212";
-      document.body.style.color = "white";
-    } else {
-      document.body.style.backgroundColor = "white";
-      document.body.style.color = "black";
-    }
-    localStorage.setItem("theme", mode);
-  }, [mode]);
-
-  const toggleTheme = () => {
-    setMode(mode === "light" ? "dark" : "light");
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("token"); // remove JWT token
-    setAuthToken(null); // clear token from axios headers
-    navigate("/login");
-  };
-
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark shadow-sm" 
-         style={{ background: "linear-gradient(90deg, #06beb6, #48b1bf)", fontWeight: "500" }}>
-      <div className="container">
-        <Link className="navbar-brand fw-bold fs-4 text-white" to="/home">
-          Lost & Found
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link text-white mx-2" to="/home">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white mx-2" to="/post-lost">Post Lost</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white mx-2" to="/post-found">Post Found</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white mx-2" to="/myposts">My Posts</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white mx-2" to="/profile">Profile</Link>
-            </li>
-          </ul>
-          
-        <div className="form-check form-switch me-3">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="flexSwitchCheckDefault"
-              onChange={toggleTheme}
-              checked={mode === "dark"}
-            />
-            <label
-              className="form-check-label text-white"
-              htmlFor="flexSwitchCheckDefault"
-            >
-              {mode === "dark" ? "Light" : "Dark"}
-            </label>
-          </div>
-
           <button
             className="btn btn-outline-light fw-bold shadow-sm"
             style={{

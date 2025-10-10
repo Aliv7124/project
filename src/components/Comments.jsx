@@ -35,6 +35,8 @@ function Comments({ itemId }) {
       await addComment(itemId, { text: newComment });
       setNewComment("");
       fetchComments();
+        const audio = new Audio("/notification.mp3");
+    audio.play();
     } catch (err) {
       console.error("Failed to add comment", err);
       setError("Failed to add comment");

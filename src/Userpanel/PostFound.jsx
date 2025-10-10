@@ -30,6 +30,8 @@ function PostFound() {
       });
 
       alert("Item posted successfully!");
+        const audio = new Audio("/notification.mp3");
+    audio.play();
       navigate("/myposts");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to post item");

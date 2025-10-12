@@ -1,42 +1,4 @@
-/*
-import React from "react";
 
-function Dashboard() {
-  // Example dummy items, replace with API call later
-  const items = [
-    { id: 1, name: "Wallet", type: "Lost", user: "Alice" },
-    { id: 2, name: "Phone", type: "Found", user: "Bob" },
-  ];
-
-  return (
-    <div>
-      <h2 className="mb-4">Admin Dashboard</h2>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Item</th>
-            <th>Type</th>
-            <th>User</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map(item => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.type}</td>
-              <td>{item.user}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default Dashboard;
-*/
 
 
 import React, { useEffect, useState } from "react";
@@ -76,9 +38,9 @@ function Dashboard() {
           </tr>
         </thead>
         <tbody>
-          {items.map(item => (
-            <tr key={item._id}>
-              <td>{item._id}</td>
+          {items.map((item,idx) => (
+            <tr key={item._idx}>
+              <td>{idx+1}</td>
               <td>{item.name}</td>
               <td>{item.type}</td>
               <td>{item.user?.name || "Unknown"}</td>

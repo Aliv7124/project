@@ -153,66 +153,89 @@ function ManageItems() {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {items.map(item => (
-            <tr key={item._id}>
-              <td>{item._id}</td>
-              <td>
-                {editingId === item._id ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={editData.name}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                ) : (
-                  item.name
-                )}
-              </td>
-              <td>
-                {editingId === item._id ? (
-                  <input
-                    type="text"
-                    name="type"
-                    value={editData.type}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                ) : (
-                  item.type
-                )}
-              </td>
-              <td>
-                {editingId === item._id ? (
-                  <input
-                    type="text"
-                    name="location"
-                    value={editData.location}
-                    onChange={handleChange}
-                    className="form-control"
-                  />
-                ) : (
-                  item.location
-                )}
-              </td>
-              <td>{item.user?.name || "Unknown"}</td>
-              <td>
-                {editingId === item._id ? (
-                  <>
-                    <button className="btn btn-success btn-sm me-2" onClick={() => handleSave(item._id)}>Save</button>
-                    <button className="btn btn-secondary btn-sm" onClick={handleCancel}>Cancel</button>
-                  </>
-                ) : (
-                  <>
-                    <button className="btn btn-warning btn-sm me-2" onClick={() => startEdit(item)}>Edit</button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(item._id)}>Delete</button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        
+         <tbody>
+  {items.map((item, index) => (
+    <tr key={item._id}>
+      {/* Serial number instead of full ID */}
+      <td>{index + 1}</td>
+
+      <td>
+        {editingId === item._id ? (
+          <input
+            type="text"
+            name="name"
+            value={editData.name}
+            onChange={handleChange}
+            className="form-control"
+          />
+        ) : (
+          item.name
+        )}
+      </td>
+
+      <td>
+        {editingId === item._id ? (
+          <input
+            type="text"
+            name="type"
+            value={editData.type}
+            onChange={handleChange}
+            className="form-control"
+          />
+        ) : (
+          item.type
+        )}
+      </td>
+
+      <td>
+        {editingId === item._id ? (
+          <input
+            type="text"
+            name="location"
+            value={editData.location}
+            onChange={handleChange}
+            className="form-control"
+          />
+        ) : (
+          item.location
+        )}
+      </td>
+
+      <td>{item.user?.name || "Unknown"}</td>
+
+      <td>
+        {editingId === item._id ? (
+          <>
+            <button
+              className="btn btn-success btn-sm me-2"
+              onClick={() => handleSave(item._id)}
+            >
+              Save
+            </button>
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => handleDelete(item._id)}
+            >
+              Delete
+            </button>
+          </>
+        )}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );

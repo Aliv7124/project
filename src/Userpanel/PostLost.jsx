@@ -118,7 +118,6 @@ import API from "../api";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
-// 🔹 Single socket instance
 const socket = io("https://backend-project-w5p1.onrender.com", { withCredentials: true });
 
 function PostLost() {
@@ -128,19 +127,26 @@ function PostLost() {
   const [phone, setPhone] = useState("");
   const [image, setImage] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const [audioAllowed, setAudioAllowed] = useState(false); // user clicked to allow audio
   const navigate = useNavigate();
 
-  // 🔹 Listen for live notifications
+  // Enable audio after first user click
+  const handleUserClick = () => {
+    setAudioAllowed(true);
+  };
+
   useEffect(() => {
     socket.on("newPost", (data) => {
       setNotifications((prev) => [data.message, ...prev]);
-      const audio = new Audio("/notification.mp3");
-       console.log("💬 New post received:", data);
-      audio.play();
+      console.log("💬 New post received:", data);
+      if (audioAllowed) {
+        const audio = new Audio("/notification.mp3");
+        audio.play().catch((err) => console.log("Audio play error:", err));
+      }
     });
 
     return () => socket.off("newPost");
-  }, []);
+  }, [audioAllowed]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -172,7 +178,7 @@ function PostLost() {
   };
 
   return (
-    <div className="col-md-6 mx-auto card p-4 shadow mt-5">
+    <div onClick={handleUserClick} className="col-md-6 mx-auto card p-4 shadow mt-5">
       <h3 className="mb-4 text-center">Post Lost Item</h3>
 
       {/* 🔔 Notifications */}

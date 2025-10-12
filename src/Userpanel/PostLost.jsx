@@ -118,6 +118,7 @@ import API from "../api";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
+// 🔹 Single socket instance
 const socket = io("https://backend-project-w5p1.onrender.com", { withCredentials: true });
 
 function PostLost() {
@@ -130,11 +131,12 @@ function PostLost() {
   const [audioAllowed, setAudioAllowed] = useState(false); // user clicked to allow audio
   const navigate = useNavigate();
 
-  // Enable audio after first user click
+  // 🔹 Enable audio after first user click
   const handleUserClick = () => {
-    setAudioAllowed(true);
+    if (!audioAllowed) setAudioAllowed(true);
   };
 
+  // 🔹 Listen for live notifications from backend
   useEffect(() => {
     socket.on("newPost", (data) => {
       setNotifications((prev) => [data.message, ...prev]);
@@ -148,6 +150,7 @@ function PostLost() {
     return () => socket.off("newPost");
   }, [audioAllowed]);
 
+  // 🔹 Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -158,14 +161,16 @@ function PostLost() {
       formData.append("type", "Lost");
       formData.append("date", new Date().toISOString());
       formData.append("phone", phone);
-
       if (image) formData.append("image", image);
 
       const token = localStorage.getItem("token");
+
+      // Send socket ID to backend so sender can be excluded from broadcast
       await API.post("/items", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,
+          "socket-id": socket.id,
         },
       });
 
@@ -225,7 +230,7 @@ function PostLost() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-          ></textarea>
+          />
         </div>
 
         <div className="mb-3">

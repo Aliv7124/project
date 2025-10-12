@@ -118,7 +118,7 @@ import API from "../api";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
-// Connect to backend Socket.IO
+// 🔹 Single socket instance
 const socket = io("https://backend-project-w5p1.onrender.com", { withCredentials: true });
 
 function PostLost() {
@@ -130,8 +130,8 @@ function PostLost() {
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
 
+  // 🔹 Listen for live notifications
   useEffect(() => {
-    // Listen to live post notifications
     socket.on("newPost", (data) => {
       setNotifications((prev) => [data.message, ...prev]);
       const audio = new Audio("/notification.mp3");
@@ -143,7 +143,6 @@ function PostLost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -175,7 +174,7 @@ function PostLost() {
     <div className="col-md-6 mx-auto card p-4 shadow mt-5">
       <h3 className="mb-4 text-center">Post Lost Item</h3>
 
-      {/* Notifications */}
+      {/* 🔔 Notifications */}
       {notifications.length > 0 && (
         <div className="mb-3">
           {notifications.map((n, idx) => (

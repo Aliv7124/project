@@ -106,7 +106,7 @@ import React, { useEffect, useState } from "react";
 import { getItemComments, addComment, deleteComment } from "../api";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000", { withCredentials: true }); // use your deployed backend
+const socket = io("https://backend-project-w5p1.onrender.com", { withCredentials: true }); // use your deployed backend
 
 function Comments({ itemId }) {
   const [comments, setComments] = useState([]);

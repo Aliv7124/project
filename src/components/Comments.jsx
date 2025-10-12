@@ -1,3 +1,4 @@
+/*
 import React, { useEffect, useState } from "react";
 import { getItemComments, addComment, deleteComment } from "../api";
 
@@ -94,6 +95,83 @@ function Comments({ itemId }) {
       </ul>
 
       {!loading && comments.length === 0 && <p>No comments yet.</p>}
+    </div>
+  );
+}
+
+export default Comments;
+*/
+
+import React, { useEffect, useState } from "react";
+import { getItemComments, addComment, deleteComment } from "../api";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000", { withCredentials: true }); // use your deployed backend
+
+function Comments({ itemId }) {
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchComments = async () => {
+    const { data } = await getItemComments(itemId);
+    setComments(data);
+  };
+
+  useEffect(() => {
+    fetchComments();
+
+    socket.on("newComment", (data) => {
+      if (data.itemId === itemId) {
+        fetchComments();
+        const audio = new Audio("/notification.mp3");
+        audio.play();
+      }
+    });
+
+    return () => socket.off("newComment");
+  }, [itemId]);
+
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return;
+    await addComment(itemId, { text: newComment });
+    setNewComment("");
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    await deleteComment(commentId);
+    fetchComments();
+  };
+
+  return (
+    <div className="comments-section mt-4">
+      <h4>Comments</h4>
+
+      <div className="mb-3">
+        <input
+          type="text"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Write a comment..."
+          className="form-control mb-2"
+        />
+        <button className="btn btn-primary w-100" onClick={handleAddComment}>
+          Add Comment
+        </button>
+      </div>
+
+      <ul className="list-group">
+        {comments.map((c) => (
+          <li key={c._id} className="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{c.userId?.name || "Unknown"}:</strong> {c.text}
+            </div>
+            <button className="btn btn-sm btn-danger" onClick={() => handleDeleteComment(c._id)}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

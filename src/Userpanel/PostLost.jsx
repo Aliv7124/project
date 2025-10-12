@@ -135,6 +135,7 @@ function PostLost() {
     socket.on("newPost", (data) => {
       setNotifications((prev) => [data.message, ...prev]);
       const audio = new Audio("/notification.mp3");
+       console.log("💬 New post received:", data);
       audio.play();
     });
 

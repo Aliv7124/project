@@ -116,10 +116,7 @@ export default PostLost;
 import React, { useState, useEffect } from "react";
 import API from "../api";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
-
-// 🔹 Single socket instance
-const socket = io("https://backend-project-w5p1.onrender.com", { withCredentials: true });
+import { requestForToken, onMessageListener } from "../firebase";
 
 function PostLost() {
   const [name, setName] = useState("");
@@ -128,29 +125,25 @@ function PostLost() {
   const [phone, setPhone] = useState("");
   const [image, setImage] = useState(null);
   const [notifications, setNotifications] = useState([]);
-  const [audioAllowed, setAudioAllowed] = useState(false); // user clicked to allow audio
   const navigate = useNavigate();
 
-  // 🔹 Enable audio after first user click
-  const handleUserClick = () => {
-    if (!audioAllowed) setAudioAllowed(true);
-  };
-
-  // 🔹 Listen for live notifications from backend
+  // 🔹 Register FCM token on mount
   useEffect(() => {
-    socket.on("newPost", (data) => {
-      setNotifications((prev) => [data.message, ...prev]);
-      console.log("💬 New post received:", data);
-      if (audioAllowed) {
-        const audio = new Audio("/notification.mp3");
-        audio.play().catch((err) => console.log("Audio play error:", err));
+    requestForToken().then((token) => {
+      if (token) {
+        // send token to backend for this user
+        API.post("/api/auth/save-fcm-token", { token });
       }
     });
 
-    return () => socket.off("newPost");
-  }, [audioAllowed]);
+    const unsubscribe = onMessageListener().then((payload) => {
+      setNotifications((prev) => [payload.notification.body, ...prev]);
+      const audio = new Audio("/notification.mp3");
+      audio.play().catch((err) => console.log(err));
+    });
 
-  // 🔹 Handle form submission
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -165,34 +158,29 @@ function PostLost() {
 
       const token = localStorage.getItem("token");
 
-      // Send socket ID to backend so sender can be excluded from broadcast
       await API.post("/items", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${token}`,
-          "socket-id": socket.id,
+          Authorization: `Bearer ${token}`,
         },
       });
 
       alert("Lost item posted successfully!");
       navigate("/myposts");
     } catch (err) {
-      console.error(err.response || err);
+      console.error(err);
       alert(err.response?.data?.message || "Failed to post item");
     }
   };
 
   return (
-    <div onClick={handleUserClick} className="col-md-6 mx-auto card p-4 shadow mt-5">
+    <div className="col-md-6 mx-auto card p-4 shadow mt-5">
       <h3 className="mb-4 text-center">Post Lost Item</h3>
 
-      {/* 🔔 Notifications */}
       {notifications.length > 0 && (
         <div className="mb-3">
           {notifications.map((n, idx) => (
-            <div key={idx} className="alert alert-info">
-              {n}
-            </div>
+            <div key={idx} className="alert alert-info">{n}</div>
           ))}
         </div>
       )}
@@ -209,7 +197,6 @@ function PostLost() {
             required
           />
         </div>
-
         <div className="mb-3">
           <label>Location Lost</label>
           <input
@@ -221,7 +208,6 @@ function PostLost() {
             required
           />
         </div>
-
         <div className="mb-3">
           <label>Description</label>
           <textarea
@@ -232,7 +218,6 @@ function PostLost() {
             required
           />
         </div>
-
         <div className="mb-3">
           <label>Phone Number (Optional)</label>
           <input
@@ -243,7 +228,6 @@ function PostLost() {
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-
         <div className="mb-3">
           <label>Upload Image</label>
           <input

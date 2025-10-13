@@ -1,4 +1,4 @@
-/*
+
 import React, { useState } from "react";
 import API from "../api";
 import { useNavigate } from "react-router-dom";
@@ -111,8 +111,8 @@ const handleSubmit = async (e) => {
 }
 
 export default PostLost;
-*/
 
+/*
 import React, { useState, useEffect } from "react";
 import API from "../api";
 import { useNavigate } from "react-router-dom";
@@ -246,3 +246,4 @@ function PostLost() {
 }
 
 export default PostLost;
+*/

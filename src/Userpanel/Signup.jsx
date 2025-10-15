@@ -200,12 +200,18 @@ function Signup({ setIsLoggedIn }) {
 <div className="mt-3 text-center">
   <FacebookLogin
     appId="YOUR_FACEBOOK_APP_ID"
-    autoLoad={false} // ✅ prevent login before SDK init
+    autoLoad={false} 
     fields="name,email,picture"
     callback={handleFacebookResponse}
     render={renderProps => (
       <button
-        onClick={renderProps.onClick}
+        onClick={() => {
+          if (window.FB) {
+            renderProps.onClick();
+          } else {
+            alert("Facebook SDK not loaded yet. Please try again.");
+          }
+        }}
         className="btn btn-primary w-100 fw-bold mt-2"
       >
         Sign Up with Facebook
@@ -213,6 +219,7 @@ function Signup({ setIsLoggedIn }) {
     )}
   />
 </div>
+
 
         <p className="mt-4 text-center text-muted">
           Already have an account? <Link to="/login" className="text-decoration-none fw-bold text-danger">Login</Link>

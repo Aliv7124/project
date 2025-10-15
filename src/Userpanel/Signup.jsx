@@ -196,19 +196,23 @@ function Signup({ setIsLoggedIn }) {
           </button>
         </form>
 
-        {/* Facebook Login */}
-        <div className="mt-3 text-center">
-          <FacebookLogin
-            appId="YOUR_FACEBOOK_APP_ID"
-            fields="name,email,picture"
-            callback={handleFacebookResponse}
-            render={renderProps => (
-              <button onClick={renderProps.onClick} className="btn btn-primary w-100 fw-bold mt-2">
-                Sign Up with Facebook
-              </button>
-            )}
-          />
-        </div>
+      {/* Facebook Login */}
+<div className="mt-3 text-center">
+  <FacebookLogin
+    appId="YOUR_FACEBOOK_APP_ID"
+    autoLoad={false} // ✅ prevent login before SDK init
+    fields="name,email,picture"
+    callback={handleFacebookResponse}
+    render={renderProps => (
+      <button
+        onClick={renderProps.onClick}
+        className="btn btn-primary w-100 fw-bold mt-2"
+      >
+        Sign Up with Facebook
+      </button>
+    )}
+  />
+</div>
 
         <p className="mt-4 text-center text-muted">
           Already have an account? <Link to="/login" className="text-decoration-none fw-bold text-danger">Login</Link>

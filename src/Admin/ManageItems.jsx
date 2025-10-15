@@ -157,7 +157,6 @@ function ManageItems() {
          <tbody>
   {items.map((item, index) => (
     <tr key={item._id}>
-      {/* Serial number instead of full ID */}
       <td>{index + 1}</td>
 
       <td>

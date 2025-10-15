@@ -88,19 +88,51 @@ function Signup({ setIsLoggedIn }) {
 
 export default Signup;
 */
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { signupUser, setAuthToken, facebookLogin  } from "../api"; // ✅ socialLogin for Facebook
+import { signupUser, setAuthToken, facebookLogin } from "../api";
 
 function Signup({ setIsLoggedIn }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fbLoaded, setFbLoaded] = useState(false); // Track FB SDK
   const navigate = useNavigate();
 
+  // Dynamically load Facebook SDK
+  useEffect(() => {
+    if (window.FB) {
+      setFbLoaded(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://connect.facebook.net/en_US/sdk.js";
+    script.id = "facebook-jssdk";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: "31613913798255590", // Replace with your App ID
+          cookie: true,
+          xfbml: true,
+          version: "v17.0",
+        });
+        setFbLoaded(true);
+      };
+    };
+
+    return () => {
+      const fbScript = document.getElementById("facebook-jssdk");
+      if (fbScript) fbScript.remove();
+    };
+  }, []);
+
+  // Regular signup
   const handleSignup = async (e) => {
     e.preventDefault();
 
@@ -111,11 +143,9 @@ function Signup({ setIsLoggedIn }) {
 
     try {
       const { data } = await signupUser({ name, email, password });
-
       localStorage.setItem("token", data.token);
       setAuthToken(data.token);
       setIsLoggedIn(true);
-
       alert("Signup successful!");
       navigate("/home");
     } catch (err) {
@@ -124,7 +154,7 @@ function Signup({ setIsLoggedIn }) {
     }
   };
 
-  // ✅ Facebook login handler
+  // Facebook login handler
   const handleFacebookResponse = async (response) => {
     if (!response.accessToken) {
       alert("Facebook login failed");
@@ -132,13 +162,10 @@ function Signup({ setIsLoggedIn }) {
     }
 
     try {
-      // Send Facebook accessToken to your backend
-      const { data } = await socialLogin({ accessToken: response.accessToken, provider: "facebook" });
-
+      const { data } = await facebookLogin({ accessToken: response.accessToken, provider: "facebook" });
       localStorage.setItem("token", data.token);
       setAuthToken(data.token);
       setIsLoggedIn(true);
-
       alert("Facebook login successful!");
       navigate("/home");
     } catch (err) {
@@ -148,15 +175,19 @@ function Signup({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center min-vh-100" 
-         style={{ background: 'linear-gradient(135deg, #FF512F, #DD2476)' }}>
+    <div
+      className="d-flex align-items-center justify-content-center min-vh-100"
+      style={{ background: "linear-gradient(135deg, #FF512F, #DD2476)" }}
+    >
       <div className="card p-5 shadow-lg rounded-4" style={{ minWidth: "400px" }}>
-        <h2 className="text-center mb-4 fw-bold" 
-            style={{ color: "#DD2476", textShadow: "1px 1px 5px rgba(0,0,0,0.3)" }}>
+        <h2
+          className="text-center mb-4 fw-bold"
+          style={{ color: "#DD2476", textShadow: "1px 1px 5px rgba(0,0,0,0.3)" }}
+        >
           User Signup
         </h2>
 
-        {/* Form Signup */}
+        {/* Regular Signup Form */}
         <form onSubmit={handleSignup}>
           <div className="mb-3">
             <label className="form-label fw-semibold">Email</label>
@@ -169,6 +200,7 @@ function Signup({ setIsLoggedIn }) {
               required
             />
           </div>
+
           <div className="mb-3">
             <label className="form-label fw-semibold">Username</label>
             <input
@@ -180,6 +212,7 @@ function Signup({ setIsLoggedIn }) {
               required
             />
           </div>
+
           <div className="mb-3">
             <label className="form-label fw-semibold">Password</label>
             <input
@@ -191,38 +224,40 @@ function Signup({ setIsLoggedIn }) {
               required
             />
           </div>
-          <button type="submit" className="btn btn-danger w-100 fw-bold" style={{ transition: "0.3s" }}>
+
+          <button
+            type="submit"
+            className="btn btn-danger w-100 fw-bold"
+            style={{ transition: "0.3s" }}
+          >
             Sign Up
           </button>
         </form>
 
-      {/* Facebook Login */}
-<div className="mt-3 text-center">
-  <FacebookLogin
-    appId="YOUR_FACEBOOK_APP_ID"
-    autoLoad={false} 
-    fields="name,email,picture"
-    callback={handleFacebookResponse}
-    render={renderProps => (
-      <button
-        onClick={() => {
-          if (window.FB) {
-            renderProps.onClick();
-          } else {
-            alert("Facebook SDK not loaded yet. Please try again.");
-          }
-        }}
-        className="btn btn-primary w-100 fw-bold mt-2"
-      >
-        Sign Up with Facebook
-      </button>
-    )}
-  />
-</div>
-
+        {/* Facebook Login */}
+        {fbLoaded ? (
+          <div className="mt-3 text-center">
+            <FacebookLogin
+              appId="YOUR_FACEBOOK_APP_ID" // Replace with your App ID
+              autoLoad={false}
+              fields="name,email,picture"
+              callback={handleFacebookResponse}
+              render={(renderProps) => (
+                <button onClick={renderProps.onClick} className="btn btn-primary w-100 fw-bold mt-2">
+                  Sign Up with Facebook
+                </button>
+              )}
+            />
+          </div>
+        ) : (
+          <p className="mt-3 text-center text-muted">Loading Facebook SDK...</p>
+        )}
 
         <p className="mt-4 text-center text-muted">
-          Already have an account? <Link to="/login" className="text-decoration-none fw-bold text-danger">Login</Link>
+          Already have an account?{" "}
+          <Link to="/login" className="text-decoration-none fw-bold text-danger">
+            Login
+          </Link>
         </p>
       </div>
     </div>

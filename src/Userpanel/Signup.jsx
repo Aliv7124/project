@@ -93,7 +93,7 @@ export default Signup;
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { signupUser, setAuthToken, socialLogin } from "../api"; // ✅ socialLogin for Facebook
+import { signupUser, setAuthToken, facebookLogin  } from "../api"; // ✅ socialLogin for Facebook
 
 function Signup({ setIsLoggedIn }) {
   const [name, setName] = useState("");

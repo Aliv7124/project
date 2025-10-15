@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Base API instance
 const API = axios.create({
-  baseURL: "https://backend-project-w5p1.onrender.com/api", // Your backend URL
+  baseURL: "https://project-backend-ewnt.onrender.com/api", // Your backend URL
 });
 
 // Attach JWT token to requests

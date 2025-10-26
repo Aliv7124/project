@@ -20,7 +20,7 @@ if (token) setAdminToken(token);
 
 // Admin auth
 export const loginAdmin = (data) => APIAdmin.post("/login", data);
-export const signupAdmin = (data) => APIAdmin.post("/signup", data);
+ export const signupAdmin = (data) => APIAdmin.post("/signup", data);
 
 // Get all users/items (admin only)
 export const getAllUsers = () => APIAdmin.get("/users");

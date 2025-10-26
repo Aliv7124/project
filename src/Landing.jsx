@@ -56,7 +56,7 @@ function Landing() {
   Find lost items, report found items, and connect with your community quickly and safely.
 </p>
       </div>
-
+    
       <div className="d-flex flex-column flex-sm-row gap-3">
         <button
           className="btn btn-warning btn-lg shadow-lg px-4 py-2 fw-bold"
@@ -67,7 +67,7 @@ function Landing() {
         >
           User Login / Signup
         </button>
-
+       
         <button
           className="btn btn-light btn-lg shadow-lg px-4 py-2 fw-bold text-primary"
           onClick={() => navigate("/admin/signup")}

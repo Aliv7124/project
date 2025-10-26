@@ -159,9 +159,7 @@ function AdminLogin({ setIsAdminLoggedIn }) {
             Login
           </button>
         </form>
-        <p className="mt-4 text-center text-muted">
-          Don’t have an account? <Link to="/admin/signup" className="text-decoration-none fw-bold text-danger">Sign Up</Link>
-        </p>
+        
       </div>
     </div>
   );

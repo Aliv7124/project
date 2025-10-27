@@ -20,14 +20,14 @@ function PostFound() {
       setLoadingDesc(true);
       const { data } = await generateDescription(name);
       
-      if (data.descriptions?.length > 0) {
-        setSuggestions(data.descriptions);        
-        setDescription(data.descriptions[0]);    
-      } else {
-        setSuggestions([]);
-        setDescription("");
-        alert("No suggestions generated");
-      }
+     if (data.description) {
+  setSuggestions([data.description]); 
+  setDescription(data.description);   
+} else {
+  setSuggestions([]);
+  setDescription("");
+  alert("No suggestions generated");
+}
     } catch (err) {
       console.error("Failed to generate description", err.response?.data || err.message);
       alert("Failed to generate description");

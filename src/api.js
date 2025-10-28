@@ -45,7 +45,8 @@ export const generateDescription = (name) =>
   API.post("/items/ai/description", { name });
 
 
-
+export const chatWithBot = (message) =>
+  API.post("/items/ai/chat", { message });
 
 // =====================
 // Export API instance

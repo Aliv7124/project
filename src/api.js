@@ -41,8 +41,8 @@ export const getItemComments = (itemId) => API.get(`/comments/item/${itemId}`); 
 export const addComment = (itemId, data) => API.post(`/comments/item/${itemId}`, data); // Add comment to item
 export const deleteComment = (commentId) => API.delete(`/comments/${commentId}`); // Delete comment
 
-export const generateDescription = (name) =>
-  API.post("/items/ai/description", { name });
+export const generateDescription = (name,location) =>
+  API.post("/items/ai/description", { name,location });
 
 
 export const chatWithBot = (message) =>

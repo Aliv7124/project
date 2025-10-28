@@ -15,10 +15,10 @@ function PostFound() {
 
  
   const handleGenerateDescription = async () => {
-    if (!name.trim()) return alert("Enter item name first!");
+    if (!name.trim() || !location.trim()) { return alert("Enter item name and location first!")};
     try {
       setLoadingDesc(true);
-      const { data } = await generateDescription(name);
+      const { data } = await generateDescription(name,location);
       
      if (data.description) {
   setSuggestions([data.description]); 
@@ -76,6 +76,19 @@ function PostFound() {
           />
         </div>
 
+
+         <div className="mb-3">
+          <label>Location Found</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Enter location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            required
+          />
+        </div>
+
         <div className="mb-3">
           <label>Description</label>
           <div className="d-flex gap-2 mb-2">
@@ -113,17 +126,7 @@ function PostFound() {
           )}
         </div>
 
-        <div className="mb-3">
-          <label>Location Found</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          />
-        </div>
+       
 
         <div className="mb-3">
           <label>Phone Number (Optional)</label>

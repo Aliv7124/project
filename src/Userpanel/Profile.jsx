@@ -1,48 +1,10 @@
 
-/*
-
 import React, { useEffect, useState } from "react";
 import API from "../api";
 
 function Profile() {
   const [user, setUser] = useState(null);
-
-  const fetchProfile = async () => {
-    try {
-      const { data } = await API.get("/auth/me"); // ✅ updated route
-      setUser(data);
-    } catch (err) {
-      console.error("Error fetching profile:", err.response?.data || err.message);
-      alert("Failed to load profile. Please login again.");
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  if (!user) return <p className="text-center mt-5">Loading profile...</p>;
-
-  return (
-    <div className="col-md-5 mx-auto card p-4 shadow mt-5">
-      <h3 className="mb-4 text-center">User Profile</h3>
-      <p><strong>Name:</strong> {user.name}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
-      <button className="btn btn-warning mt-3 w-100">Edit Profile</button>
-    </div>
-  );
-}
-
-export default Profile;
-*/
-
-import React, { useEffect, useState } from "react";
-import API from "../api";
-
-function Profile() {
-  const [user, setUser] = useState(null);
-  const [editing, setEditing] = useState(false); // toggle edit mode
+  const [editing, setEditing] = useState(false); 
   const [formData, setFormData] = useState({ name: "", email: "" });
 
   const fetchProfile = async () => {
@@ -66,7 +28,7 @@ function Profile() {
 
   const handleSave = async () => {
     try {
-      const { data } = await API.put("/auth/me", formData); // update profile
+      const { data } = await API.put("/auth/me", formData); 
       setUser(data);
       setEditing(false);
       alert("Profile updated successfully!");

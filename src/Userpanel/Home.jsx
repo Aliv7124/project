@@ -34,7 +34,7 @@ function Home() {
   return (
     <div className="container py-5" style={{ minHeight: "90vh" }}>
       
-      {/* ===== Vision Hero Section ===== */}
+      
       <section className="mb-5 p-5 rounded-4 shadow-lg text-center"
                style={{
                  background: "linear-gradient(135deg, #06beb6, #48b1bf)",
@@ -63,7 +63,7 @@ function Home() {
           Our mission is to create trust, efficiency, and care in every recovery.
         </motion.p>
 
-        {/* Animated circles in background */}
+       
         <div style={{
           position: "absolute",
           top: "-50px",
@@ -96,7 +96,7 @@ function Home() {
         </style>
       </section>
 
-      {/* ===== Recent Items Section ===== */}
+     
       <h2
         className="text-center mb-5 fw-bold"
         style={{

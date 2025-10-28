@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Pages
+
 import Signup from "./Userpanel/Signup";
 import Login from "./Userpanel/Login";
 import Home from "./Userpanel/Home";
@@ -12,7 +12,7 @@ import MyPosts from "./Userpanel/MyPosts";
 import ItemDetails from "./Userpanel/ItemDetails";
 import Profile from "./Userpanel/Profile";
 import UserLayout from './Userpanel/UserLayout';
-// Components
+
 import Navbar from "./Userpanel/Navbar";
 import Footer from "./Userpanel/Footer";
 import Landing from './Landing';

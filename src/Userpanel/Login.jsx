@@ -12,9 +12,9 @@ function Login({ setIsLoggedIn }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await loginUser({ email, password }); // call backend
-      localStorage.setItem("token", data.token); // save JWT
-      setAuthToken(data.token); // set default header
+      const { data } = await loginUser({ email, password }); 
+      localStorage.setItem("token", data.token); 
+      setAuthToken(data.token);
       setIsLoggedIn(true);
       navigate("/home");
     } catch (err) {

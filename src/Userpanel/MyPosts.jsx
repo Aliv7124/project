@@ -7,7 +7,7 @@ function MyPosts() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Edit modal states
+ 
   const [editPost, setEditPost] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,14 +19,14 @@ function MyPosts() {
     imageFile: null
   });
 
-  // Image modal state
+ 
   const [imgModal, setImgModal] = useState({ open: false, url: "" });
 
-  // Fetch user's posts
+
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const { data } = await API.get("/items"); // logged-in user's posts
+      const { data } = await API.get("/items"); 
       setPosts(data);
     } catch (err) {
       console.error("Error fetching posts:", err.response?.data || err.message);
@@ -66,12 +66,12 @@ function MyPosts() {
     setShowModal(true);
   };
 
-  // Submit edit
+ 
   const submitEdit = async () => {
     try {
       const updatedData = { ...formData };
 
-      // If a file is selected, upload it first
+     
       if (formData.imageFile) {
         const form = new FormData();
         form.append("file", formData.imageFile);
@@ -83,7 +83,7 @@ function MyPosts() {
         updatedData.image = uploadRes.data.url;
       }
 
-      delete updatedData.imageFile; // remove before sending PUT
+      delete updatedData.imageFile; 
 
       const { data } = await updateUserItem(editPost._id, updatedData);
       setPosts(posts.map((p) => (p._id === editPost._id ? data : p)));
@@ -219,11 +219,11 @@ function MyPosts() {
     className="modal show d-block"
     tabIndex="-1"
     style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
-    onClick={() => setImgModal({ open: false, url: "" })} // click outside closes
+    onClick={() => setImgModal({ open: false, url: "" })} 
   >
     <div
       className="modal-dialog modal-dialog-centered"
-      onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+      onClick={(e) => e.stopPropagation()} 
     >
       <div className="modal-content bg-transparent border-0 position-relative">
        

@@ -1,5 +1,4 @@
 
-/*
 import React, { useEffect, useState } from "react";
 import APIAdmin from "../apiAdmin";
 
@@ -7,81 +6,7 @@ function ManageItems() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchItems = async () => {
-    try {
-      const res = await APIAdmin.get("/items");
-      setItems(res.data);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    if (!confirmDelete) return;
-
-    try {
-      await APIAdmin.delete(`/items/${id}`);
-      setItems(items.filter(item => item._id !== id));
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete item");
-    }
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-
-  return (
-    <div>
-      <h2 className="mb-4">Manage Items</h2>
-      <table className="table table-bordered table-hover">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Item Name</th>
-            <th>Type</th>
-            <th>Location</th>
-            <th>User</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map(item => (
-            <tr key={item._id}>
-              <td>{item._id}</td>
-              <td>{item.name}</td>
-              <td>{item.type}</td>
-              <td>{item.location}</td>
-              <td>{item.user?.name || "Unknown"}</td>
-              <td>
-                <button className="btn btn-warning btn-sm me-2">Edit</button>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(item._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default ManageItems;
-*/
-
-import React, { useEffect, useState } from "react";
-import APIAdmin from "../apiAdmin";
-
-function ManageItems() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // For editing
+  
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({ name: "", type: "", location: "" });
 

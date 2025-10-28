@@ -6,13 +6,13 @@ import Comments from "../components/Comments";
 import ShareButtons from "./ShareButtons";
 
 function ItemDetails() {
-  const { id } = useParams(); // get item ID from route
+  const { id } = useParams(); 
   const [item, setItem] = useState(null);
   const [contact, setContact] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Fetch item details
+ 
   const fetchItem = async () => {
     try {
       const { data } = await API.get(`/items/${id}`);
@@ -22,7 +22,7 @@ function ItemDetails() {
     }
   };
 
-  // Fetch contact info
+  
   const handleContactOwner = async () => {
     try {
       setLoading(true);

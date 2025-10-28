@@ -87,11 +87,11 @@ function ItemCard({ item }) {
     className="modal show d-block"
     tabIndex="-1"
     style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
-    onClick={() => setImgModal({ open: false, url: "" })} // click outside closes
+    onClick={() => setImgModal({ open: false, url: "" })} 
   >
     <div
       className="modal-dialog modal-dialog-centered"
-      onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+      onClick={(e) => e.stopPropagation()} 
     >
       <div className="modal-content bg-transparent border-0 position-relative">
       

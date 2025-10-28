@@ -7,7 +7,7 @@ function ManageUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Editing
+  
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({ name: "", email: "" });
 
@@ -46,7 +46,7 @@ function ManageUsers() {
 
   const handleSave = async (id) => {
     try {
-      const res = await APIAdmin.put(`/users/${id}`, editData); // backend must support PUT /users/:id
+      const res = await APIAdmin.put(`/users/${id}`, editData);
       setUsers(users.map(u => (u._id === id ? res.data : u)));
       setEditingId(null);
     } catch (err) {

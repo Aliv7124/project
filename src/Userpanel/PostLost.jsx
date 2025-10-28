@@ -1,47 +1,64 @@
-
 import React, { useState } from "react";
-import API from "../api";
+import API, { generateLostDescription } from "../api"; // ⬅️ use Lost AI generator
 import { useNavigate } from "react-router-dom";
 
 function PostLost() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [phone, setPhone] = useState(""); // <-- added phone
+  const [phone, setPhone] = useState("");
   const [image, setImage] = useState(null);
+  const [loadingDesc, setLoadingDesc] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("location", location);
-    formData.append("description", description);
-    formData.append("type", "Lost");
-    formData.append("date", new Date().toISOString());
-    formData.append("phone", phone);
+  const handleGenerateDescription = async () => {
+    if (!name.trim() || !location.trim()) {
+      return alert("Enter item name and location first!");
+    }
+    try {
+      setLoadingDesc(true);
+      const { data } = await generateLostDescription(name, location);
 
-    if (image) formData.append("image", image);
+      if (data.description) {
+        setSuggestions([data.description]);
+        setDescription(data.description);
+      } else {
+        setSuggestions([]);
+        setDescription("");
+        alert("No suggestions generated");
+      }
+    } catch (err) {
+      console.error("Failed to generate description", err.response?.data || err.message);
+      alert("Failed to generate description");
+    } finally {
+      setLoadingDesc(false);
+    }
+  };
 
-    // Add Authorization header with JWT token
-    const token = localStorage.getItem("token"); // or wherever you store it
-    await API.post("/items", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("location", location);
+      formData.append("description", description);
+      formData.append("type", "Lost");
+      formData.append("date", new Date().toISOString());
+      formData.append("phone", phone);
+      if (image) formData.append("image", image);
 
-    alert("Lost item posted successfully!");
+      await API.post("/items", formData, { headers: { "Content-Type": "multipart/form-data" } });
+
+      alert("Lost item posted successfully!");
       const audio = new Audio("/notification.mp3");
-    audio.play();
-    navigate("/myposts");
-  } catch (err) {
-    console.error(err.response || err);
-    alert(err.response?.data?.message || "Failed to post item");
-  }
-};
+      audio.play();
+      navigate("/myposts");
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to post item");
+      console.error(err);
+    }
+  };
 
   return (
     <div className="col-md-6 mx-auto card p-4 shadow mt-5">
@@ -73,13 +90,38 @@ const handleSubmit = async (e) => {
 
         <div className="mb-3">
           <label>Description</label>
-          <textarea
-            className="form-control"
-            placeholder="Enter description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
+          <div className="d-flex gap-2 mb-2">
+            <textarea
+              className="form-control"
+              placeholder="Enter description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-info"
+              onClick={handleGenerateDescription}
+              disabled={loadingDesc}
+            >
+              {loadingDesc ? "Generating..." : "AI Suggest"}
+            </button>
+          </div>
+
+          {suggestions.length > 0 && (
+            <div className="d-flex flex-wrap gap-2">
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="btn btn-sm btn-outline-primary"
+                  onClick={() => setDescription(s)}
+                >
+                  Suggestion {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mb-3">

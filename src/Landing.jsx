@@ -1,35 +1,4 @@
-/*
-import React from "react";
-import { useNavigate } from "react-router-dom";
 
-function Landing() {
-  const navigate = useNavigate();
-
-  return (
-    <div className="text-center mt-5">
-      <h1 className="mb-4">Welcome to Lost & Found Community</h1>
-      <div className="d-flex justify-content-center gap-3">
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("/signup")}
-        >
-          User Login / Signup
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("/admin/signup")}
-        >
-          Admin Login/Signup
-      </button>
-      </div>
-    </div>
-  );
-}
-
-export default Landing;
-*/
-
-// src/Landing.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 

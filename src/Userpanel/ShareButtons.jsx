@@ -19,7 +19,7 @@ const ShareButtons = ({ item }) => {
 
   return (
     <div className="position-relative d-inline-block">
-      {/* Share Button */}
+      
       <button
         className="btn  btn-sm d-flex text-white align-items-center gap-1"
         style={{ fontSize: "0.84rem", padding: "0.3rem 0.5rem",backgroundColor:"#bd6fb4" }}
@@ -28,7 +28,7 @@ const ShareButtons = ({ item }) => {
         <FaShareAlt /> Share
       </button>
 
-      {/* Popup Menu */}
+      
       {open && (
         <div
           className="position-absolute bottom-100 start-50 translate-middle-x mb-2 bg-white shadow rounded-pill d-flex gap-2 align-items-center"
@@ -47,7 +47,7 @@ const ShareButtons = ({ item }) => {
             </a>
           ))}
 
-          {/* Close Button */}
+         
           <button
             onClick={() => setOpen(false)}
             className="btn btn-light btn-sm d-flex align-items-center justify-content-center"
